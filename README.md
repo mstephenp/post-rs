@@ -1,3 +1,5 @@
+![status](https://github.com/mstephenp/post-rs/.github/workflows/rust.yml/badge.svg)
+
 # Sample Message Board Application
 This server uses [axum](https://github.com/tokio-rs/axum/) to create a REST API for managing posts in a message board-like application.
 
