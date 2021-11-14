@@ -1,4 +1,5 @@
 ### sample REST calls to show API functionality
+### works in VS Code with the REST Client extension
 
 GET http://localhost:3000/posts
 
