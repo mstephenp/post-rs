@@ -1,0 +1,32 @@
+### sample REST calls to show API functionality
+
+GET http://localhost:3000/posts
+
+###
+
+GET http://localhost:3000/post/3
+
+###
+
+POST http://localhost:3000/addPost
+Content-Type: application/json
+
+{
+    "content": "this is fun!"
+}
+
+###
+
+POST http://localhost:3000/updatePost
+Content-Type: application/json
+
+{
+    "post_id": 3,
+    "updated_content": "this is now updated"
+}
+
+###
+
+POST http://localhost:3000/deletePost/2
+
+
