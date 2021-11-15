@@ -10,6 +10,7 @@ use post_server::{
     update_post_handler, PostDb,
 };
 
+/// The main application entry point
 #[tokio::main]
 async fn main() {
     let db = create_post_db();

@@ -82,14 +82,25 @@ async fn create_post() {
 
 #[tokio::test]
 async fn update_post() {
+    let listener = TcpListener::bind("127.0.0.1:4321".parse::<SocketAddr>().unwrap()).unwrap();
+    let addr = listener.local_addr().unwrap();
     let db = create_post_db();
-    let app = app(db);
-    let response = app
-        .clone()
-        .oneshot(
+
+    tokio::spawn(async move {
+        axum::Server::from_tcp(listener)
+            .unwrap()
+            .serve(app(db).into_make_service())
+            .await
+            .unwrap()
+    });
+
+    let client = hyper::Client::new();
+
+    let response = client
+        .request(
             Request::builder()
                 .method(http::Method::POST)
-                .uri("/addPost")
+                .uri(format!("http://{}/addPost", addr))
                 .header(http::header::CONTENT_TYPE, "application/json")
                 .body(Body::from(
                     "{\"content\": \"this is some content\"}".to_string(),
@@ -105,15 +116,15 @@ async fn update_post() {
     let body: Value = serde_json::from_slice(&body).unwrap();
     assert_eq!(body, json!(1));
 
-    let response = app
-        .clone()
-        .oneshot(
+    let response = client
+        .request(
             Request::builder()
                 .method(http::Method::POST)
-                .uri("/updatePost")
+                .uri(format!("http://{}/updatePost", addr))
                 .header(http::header::CONTENT_TYPE, "application/json")
                 .body(Body::from(
-                    "{\"post_id\": 1, \"updated_content\": \"updated content\"}".to_string(),
+                    "{\"post_id\": 1, \"updated_content\": \"this is some updated content\"}"
+                        .to_string(),
                 ))
                 .unwrap(),
         )
@@ -126,12 +137,11 @@ async fn update_post() {
     let body: Value = serde_json::from_slice(&body).unwrap();
     assert_eq!(body, json!(1));
 
-    let response = app
-        .clone()
-        .oneshot(
+    let response = client
+        .request(
             Request::builder()
                 .method(http::Method::GET)
-                .uri("/post/1")
+                .uri(format!("http://{}/post/1", addr))
                 .body(Body::empty())
                 .unwrap(),
         )
@@ -143,12 +153,12 @@ async fn update_post() {
     let body = hyper::body::to_bytes(response.into_body()).await.unwrap();
     let body: Value = serde_json::from_slice(&body).unwrap();
     assert!(body != json!([{"post_id": 1, "content": "this is some content"}]));
-    assert_eq!(body, json!([{"post_id": 1, "content": "updated content"}]));
+    assert!(body == json!([{"post_id": 1, "content": "this is some updated content"}]));
 }
 
 #[tokio::test]
 async fn delete_post() {
-    let listener = TcpListener::bind("127.0.0.1:4321".parse::<SocketAddr>().unwrap()).unwrap();
+    let listener = TcpListener::bind("127.0.0.1:4322".parse::<SocketAddr>().unwrap()).unwrap();
     let addr = listener.local_addr().unwrap();
     let db = create_post_db();
 

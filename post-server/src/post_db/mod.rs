@@ -11,7 +11,24 @@ pub struct Post {
     content: String,
 }
 
-/// PostDb struct - just a list of User
+/// PostDb struct - just a list of Posts
+/// 
+/// Example:
+/// ```
+/// use post_server::{Post, PostDb, PostDbStatus};
+/// 
+/// let mut db = PostDb::new();
+/// 
+/// let result = db.get_posts();
+/// assert!(result.len() == 0);
+/// 
+/// let result = db.create_post("some content".to_string());
+/// assert!(result.status == PostDbStatus::Ok);
+/// assert!(result.value == 1);
+/// 
+/// let result = db.get_post(1);
+/// assert!(result.status == PostDbStatus::Ok);
+/// ```
 pub struct PostDb {
     pub posts: Vec<Post>,
 }
@@ -81,12 +98,12 @@ impl PostDb {
 
     /// delete a post by id
     pub fn delete_post(&mut self, id: u64) -> PostDbResponse<Option<u64>> {
-        for (i, u) in self.posts.clone().into_iter().enumerate() {
-            if u.post_id == id {
-                self.posts.remove(i);
+        for (post_index, post) in self.posts.clone().into_iter().enumerate() {
+            if post.post_id == id {
+                let found_post = self.posts.remove(post_index);
                 return PostDbResponse {
                     status: PostDbStatus::Ok,
-                    value: Some(id),
+                    value: Some(found_post.post_id),
                 };
             }
         }
@@ -98,13 +115,9 @@ impl PostDb {
 
     /// update a post by id with updated content
     pub fn update_post(&mut self, id: u64, updated_content: String) -> PostDbResponse<Option<u64>> {
-        for (i, u) in self.posts.clone().iter_mut().enumerate() {
-            if u.post_id == id {
-                let mut post_to_update = self.posts.remove(i);
-                post_to_update.content = updated_content;
-
-                self.posts.push(post_to_update);
-
+        for (index, post) in self.posts.clone().iter_mut().enumerate() {
+            if post.post_id == id {
+                self.posts[index].content = updated_content;
                 return PostDbResponse {
                     status: PostDbStatus::Ok,
                     value: Some(id),

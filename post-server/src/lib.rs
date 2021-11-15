@@ -10,7 +10,7 @@ use axum::{
     Json,
 };
 
-pub use post_db::{PostDb, PostDbResponse, PostDbStatus};
+pub use post_db::{Post, PostDb, PostDbResponse, PostDbStatus};
 use requests::{CreatePostRequest, UpdatePostRequest};
 use serde::Serialize;
 
