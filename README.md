@@ -1,3 +1,5 @@
+<!-- [![Build](https://github.com/mstephenp/post-rs/actions/workflows/build_status.yml/badge.svg)](https://github.com/mstephenp/post-rs/actions/workflows/build_status.yml) -->
+
 # Sample Message Board Application
 This server uses [axum](https://github.com/tokio-rs/axum/) to create a REST API for managing posts in a message board-like application.
 
