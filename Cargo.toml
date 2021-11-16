@@ -1,2 +1,5 @@
 [workspace]
-members = ["post-server"]
+members = [
+    "post-server", 
+    "post-client"
+]
