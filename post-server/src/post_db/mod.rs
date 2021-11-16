@@ -12,20 +12,20 @@ pub struct Post {
 }
 
 /// PostDb struct - just a list of Posts
-/// 
+///
 /// Example:
 /// ```
 /// use post_server::{Post, PostDb, PostDbStatus};
-/// 
+///
 /// let mut db = PostDb::new();
-/// 
+///
 /// let result = db.get_posts();
 /// assert!(result.len() == 0);
-/// 
+///
 /// let result = db.create_post("some content".to_string());
 /// assert!(result.status == PostDbStatus::Ok);
 /// assert!(result.value == 1);
-/// 
+///
 /// let result = db.get_post(1);
 /// assert!(result.status == PostDbStatus::Ok);
 /// ```
@@ -186,18 +186,18 @@ mod test {
             assert_eq!("post content", post.content);
         }
 
-        let response = db.create_post("testuser2".to_string());
+        let response = db.create_post("post content 2".to_string());
         assert_eq!(PostDbStatus::Ok, response.status);
         assert_eq!(response.value, 2);
         let response = db.get_post(2);
         assert_eq!(PostDbStatus::Ok, response.status);
         if let Some(post) = response.value {
-            assert_eq!("testuser2", post.content);
+            assert_eq!("post content 2", post.content);
         }
     }
 
     #[test]
-    fn update_user() {
+    fn update_post() {
         let mut db = PostDb::new();
         assert!(db.posts.is_empty());
 
@@ -214,7 +214,7 @@ mod test {
     }
 
     #[test]
-    fn delete_user() {
+    fn delete_post() {
         let mut db = PostDb::new();
         assert!(db.posts.is_empty());
 
