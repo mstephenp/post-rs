@@ -5,7 +5,7 @@
 use serde::Serialize;
 
 /// Post struct
-#[derive(Serialize, Clone)]
+#[derive(Debug, Serialize, Clone)]
 pub struct Post {
     post_id: u64,
     content: String,

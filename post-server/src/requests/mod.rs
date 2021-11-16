@@ -2,10 +2,10 @@
 //!
 //! These are request definitions
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 /// a request to create a new post
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct CreatePostRequest {
     pub content: String,
 }

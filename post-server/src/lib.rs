@@ -11,7 +11,7 @@ use axum::{
 };
 
 pub use post_db::{Post, PostDb, PostDbResponse, PostDbStatus};
-use requests::{CreatePostRequest, UpdatePostRequest};
+pub use requests::{CreatePostRequest, UpdatePostRequest};
 use serde::Serialize;
 
 /// Get All Posts
