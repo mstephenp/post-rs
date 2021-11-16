@@ -1,7 +1,7 @@
 
-use serde::{Deserialize, Serialize};
+use post_lib::CreatePostRequest;
+use serde::Deserialize;
 use yew::{format::{Json, Nothing}, prelude::*, services::fetch::{FetchService, FetchTask, Request, Response}};
-// use post_server::CreatePostRequest;
 
 
 #[derive(Deserialize, Debug, Clone)]
@@ -16,11 +16,6 @@ pub enum PostMsg {
     AddPost(String),
     SetInfo(String),
     ReceiveResponse(Result<Vec<Post>, anyhow::Error>)
-}
-
-#[derive(Serialize)]
-pub struct CreatePostRequest {
-    content: String
 }
 
 #[derive(Debug)]

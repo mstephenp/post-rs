@@ -1,5 +1,6 @@
 [workspace]
 members = [
     "post-server", 
-    "post-client"
+    "post-client",
+    "post-lib"
 ]

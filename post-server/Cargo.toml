@@ -10,6 +10,7 @@ tokio = {version = "1", features = ["full"]}
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0.68"
 hyper = { version = "0.14", features = ["full"] }
+post-lib = { path = "../post-lib" }
 
 [dev-dependencies]
 tower = { version = "0.4", features = ["util"] }

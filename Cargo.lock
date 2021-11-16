@@ -662,8 +662,16 @@ name = "post-client"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "post-lib",
  "serde",
  "yew",
+]
+
+[[package]]
+name = "post-lib"
+version = "0.1.0"
+dependencies = [
+ "serde",
 ]
 
 [[package]]
@@ -672,6 +680,7 @@ version = "0.1.0"
 dependencies = [
  "axum",
  "hyper",
+ "post-lib",
  "serde",
  "serde_json",
  "tokio",
