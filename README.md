@@ -5,7 +5,7 @@ This server uses [axum](https://github.com/tokio-rs/axum/) to create a REST API 
 
 If used inside VS Code, the [rest client](https://github.com/Huachao/vscode-restclient) extension can be used with calls listed in dev.http. This makes it easy to work with the API functionality.
 
-There is also a client application (post-client) built with [yew](https://yew.rs/).
+There is also a client application (post-client) built with [yew](https://yew.rs/).  This is a ***very basic*** demonstration of client side functionality.
 
 To run the server, from the top level run `cargo run -p post-server`
 
