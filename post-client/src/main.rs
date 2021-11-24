@@ -28,6 +28,23 @@ impl PostClient {
     fn view_post_list(&self) -> Html {
         match self.posts {
             Some(ref post_list) => {
+
+                let add_post_callback = 
+                    self.link.callback(|event: ChangeData|
+                        if let ChangeData::Value(content) = event {
+                            if !content.is_empty() {
+                                PostMsg::AddPost(content)
+                            } else {
+                                PostMsg::SetInfo("empty post added".to_string())
+                            }
+                        } else {
+                            PostMsg::SetInfo("could not get content from ChangeData".to_string())
+                        }
+                    );
+
+                let delete_post_callback = |id: u64| 
+                    self.link.callback(move |_| PostMsg::RemovePost(id));
+
                 html! {
                     <div class="main">
                         <div class="flex three grow">
@@ -38,16 +55,8 @@ impl PostClient {
                                 </button>
                             </div>
                             <div>
-                                <button class="success"
-                                    onclick=self.link.callback(|_| PostMsg::AddPost("adding content".to_string()))>
-                                    { "add post" } 
-                                </button>
-                            </div>
-                            <div>
-                                <button class="success"
-                                    onclick=self.link.callback(|_| PostMsg::RemovePost(1))>
-                                    { "delete post" } 
-                                </button>
+                                <label for="addPost">{ "Add New Post" }</label>
+                                <input id="addPost" type="text" onchange={add_post_callback}/>
                             </div>
                         </div>
                         <div class="flex">
@@ -55,12 +64,8 @@ impl PostClient {
                                 {
                                     post_list.iter().map(|post| html! {
                                         <div>
-                                            <label>
-                                                <input type="checkbox"/>
-                                                <span class="checkable">
-                                                    { format!("{}: {}", post.post_id.clone(), post.content.clone()) } 
-                                                </span>
-                                            </label>
+                                            <span>{ format!("{}: {}", post.post_id.clone(), post.content.clone()) }</span>
+                                            <button class="warning" onclick={delete_post_callback(post.post_id)}>{"delete post"}</button>
                                         </div>
                                     }).collect::<Html>()
                                 }
@@ -172,7 +177,7 @@ impl Component for PostClient {
                 true
             }
             RemovePost(post_id) => {
-                let request = Request::get(format!("http://localhost:3000/deletePost/{}", post_id))
+                let request = Request::post(format!("http://localhost:3000/deletePost/{}", post_id))
                     .body(Nothing)    
                     .expect("could not make delete request");
 
@@ -217,8 +222,8 @@ impl Component for PostClient {
     fn view(&self) -> Html {
         html! {
             <>
-                { self.view_fetching() }
                 { self.view_post_list() }
+                { self.view_fetching() }
                 { self.view_error() }
                 { self.view_info() }
             </>
