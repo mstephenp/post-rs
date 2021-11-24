@@ -15,7 +15,7 @@ pub struct Post {
 ///
 /// Example:
 /// ```
-/// use post_server::{Post, PostDb, PostDbStatus};
+/// use post_server::{PostDb, PostDbStatus};
 ///
 /// let mut db = PostDb::new();
 ///

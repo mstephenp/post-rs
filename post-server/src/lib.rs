@@ -1,5 +1,4 @@
 mod post_db;
-mod requests;
 
 use std::sync::{Arc, Mutex};
 
@@ -10,9 +9,8 @@ use axum::{
     Json,
 };
 
-pub use post_db::{Post, PostDb, PostDbResponse, PostDbStatus};
-use post_lib::CreatePostRequest;
-pub use requests::UpdatePostRequest;
+pub use post_db::{PostDb, PostDbResponse, PostDbStatus};
+use post_lib::{CreatePostRequest, UpdatePostRequest};
 use serde::Serialize;
 
 /// Get All Posts
